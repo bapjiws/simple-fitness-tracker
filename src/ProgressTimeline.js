@@ -47,15 +47,18 @@ const Chart = ({measurements}) => (
 
 export const ProgressTimeline = ({data}) => (
   <div className="Progress-Timeline-container">
-    <TableTemplate headlineText={'Progress timeline'}>
-      <Chart
-        measurements={[
-          {
-            id: 'fatness data',
-            data,
-          },
-        ]}
-      />
-    </TableTemplate>
+    <TableTemplate
+      headlineText={'Progress timeline'}
+      body={
+        <Chart
+          measurements={[
+            {
+              id: 'fatness data',
+              data,
+            },
+          ]}
+        />
+      }
+    />
   </div>
 );
