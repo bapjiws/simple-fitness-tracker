@@ -81,7 +81,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const MeasurementChart = () => {
+export const ProgressTimeline = () => {
   const classes = useStyles();
 
   const {loading, error, data} = useQuery(MEASUREMENTS);
