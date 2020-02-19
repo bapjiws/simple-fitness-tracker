@@ -27,10 +27,10 @@ const client = new ApolloClient({
 export default () => (
   <ApolloProvider client={client}>
     <div className="App">
-      <div className="Progress-Timeline">
+      <div className="Progress-Timeline-container">
         <ProgressTimeline />
       </div>
-      <div className="Measurements">M</div>
+      <div className="Measurements-container">M</div>
     </div>
   </ApolloProvider>
 );
