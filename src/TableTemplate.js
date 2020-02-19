@@ -23,6 +23,7 @@ const useStyles = makeStyles({
   },
 
   tableContainer: {
+    display: 'block',
     height: '400px',
   },
 });
@@ -37,9 +38,7 @@ export const TableTemplate = ({headlineText, children}) => {
             <TableCell className={classes.headline}>{headlineText}</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          <div className={classes.tableContainer}>{children}</div>
-        </TableBody>
+        <TableBody className={classes.tableContainer}>{children}</TableBody>
       </Table>
     </TableContainer>
   );
