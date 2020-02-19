@@ -1,19 +1,7 @@
 import React from 'react';
 import {ResponsiveLine} from '@nivo/line';
-import {useQuery} from '@apollo/react-hooks';
-import {gql} from 'apollo-boost';
 
 import {TableTemplate} from './TableTemplate';
-
-const MEASUREMENTS = gql`
-  query Measurements {
-    measurements {
-      id
-      Weight
-      Date
-    }
-  }
-`;
 
 const Chart = ({measurements}) => (
   <ResponsiveLine
@@ -56,26 +44,15 @@ const Chart = ({measurements}) => (
   />
 );
 
-export const ProgressTimeline = () => {
-
-  const {loading, error, data} = useQuery(MEASUREMENTS);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
-  return (
-    <TableTemplate headlineText={'Progress timeline'}>
-      <Chart
-        measurements={[
-          {
-            id: 'fatness data',
-            data: data.measurements.map(({Weight, Date}) => ({
-              x: Date,
-              y: Weight,
-            })),
-          },
-        ]}
-      />
-    </TableTemplate>
-  );
-};
+export const ProgressTimeline = ({data}) => (
+  <TableTemplate headlineText={'Progress timeline'}>
+    <Chart
+      measurements={[
+        {
+          id: 'fatness data',
+          data,
+        },
+      ]}
+    />
+  </TableTemplate>
+);

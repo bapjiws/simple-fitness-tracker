@@ -1,6 +1,8 @@
 import React from 'react';
 import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from '@apollo/react-hooks';
+import {useQuery} from '@apollo/react-hooks';
+import {gql} from 'apollo-boost';
 
 //import logo from './logo.svg';
 import './App.css';
@@ -25,13 +27,41 @@ const client = new ApolloClient({
   uri: 'http://13.48.85.187:1337/graphql',
 });
 
-export default () => (
-  <ApolloProvider client={client}>
+const MEASUREMENTS = gql`
+  query Measurements {
+    measurements {
+      id
+      Weight
+      Date
+    }
+  }
+`;
+
+const App = () => {
+  const {loading, error, data} = useQuery(MEASUREMENTS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+  return (
     <div className="App">
       <div className="Progress-Timeline-container">
-        <ProgressTimeline />
+        <ProgressTimeline
+          data={data.measurements.map(({Weight, Date}) => ({
+            x: Date,
+            y: Weight,
+          }))}
+        />
       </div>
-      <div className="Measurements-container"><Measurements/></div>
+      <div className="Measurements-container">
+        <Measurements data={data.measurements} />
+      </div>
     </div>
+  );
+};
+
+export default () => (
+  <ApolloProvider client={client}>
+    <App />
   </ApolloProvider>
 );
