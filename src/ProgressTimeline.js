@@ -1,6 +1,7 @@
 import React from 'react';
 import {ResponsiveLine} from '@nivo/line';
 
+import './App.css';
 import {TableTemplate} from './TableTemplate';
 
 const Chart = ({measurements}) => (
@@ -45,14 +46,16 @@ const Chart = ({measurements}) => (
 );
 
 export const ProgressTimeline = ({data}) => (
-  <TableTemplate headlineText={'Progress timeline'}>
-    <Chart
-      measurements={[
-        {
-          id: 'fatness data',
-          data,
-        },
-      ]}
-    />
-  </TableTemplate>
+  <div className="Progress-Timeline-container">
+    <TableTemplate headlineText={'Progress timeline'}>
+      <Chart
+        measurements={[
+          {
+            id: 'fatness data',
+            data,
+          },
+        ]}
+      />
+    </TableTemplate>
+  </div>
 );

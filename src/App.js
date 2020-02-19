@@ -45,17 +45,13 @@ const App = () => {
 
   return (
     <div className="App">
-      <div className="Progress-Timeline-container">
-        <ProgressTimeline
-          data={data.measurements.map(({Weight, Date}) => ({
-            x: Date,
-            y: Weight,
-          }))}
-        />
-      </div>
-      <div className="Measurements-container">
-        <Measurements data={data.measurements} />
-      </div>
+      <ProgressTimeline
+        data={data.measurements.map(({Weight, Date}) => ({
+          x: Date,
+          y: Weight,
+        }))}
+      />
+      <Measurements data={data.measurements} />
     </div>
   );
 };
