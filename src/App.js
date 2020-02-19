@@ -5,6 +5,7 @@ import {ApolloProvider} from '@apollo/react-hooks';
 //import logo from './logo.svg';
 import './App.css';
 import {ProgressTimeline} from './ProgressTimeline';
+import {Measurements} from './Measurements';
 
 //<header className="App-header">
 //  <img src={logo} className="App-logo" alt="logo" />
@@ -30,7 +31,7 @@ export default () => (
       <div className="Progress-Timeline-container">
         <ProgressTimeline />
       </div>
-      <div className="Measurements-container">M</div>
+      <div className="Measurements-container"><Measurements/></div>
     </div>
   </ApolloProvider>
 );
