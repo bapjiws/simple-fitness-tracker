@@ -1,17 +1,9 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-
 import {ResponsiveLine} from '@nivo/line';
-
 import {useQuery} from '@apollo/react-hooks';
 import {gql} from 'apollo-boost';
+
+import {TableTemplate} from './TableTemplate';
 
 const MEASUREMENTS = gql`
   query Measurements {
@@ -64,59 +56,26 @@ const Chart = ({measurements}) => (
   />
 );
 
-const useStyles = makeStyles({
-  table: {
-    width: '100%',
-  },
-
-  headline: {
-    display: 'flex',
-    justifyContent: 'center',
-    backgroundColor: 'black',
-    color: 'white',
-  },
-
-  tableContainer: {
-    height: '400px',
-  },
-});
-
 export const ProgressTimeline = () => {
-  const classes = useStyles();
 
   const {loading, error, data} = useQuery(MEASUREMENTS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  console.log(data);
-
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell className={classes.headline}>
-              Progress timeline
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <div className={classes.tableContainer}>
-            <Chart
-              measurements={[
-                {
-                  id: 'fatness data',
-                  data: data.measurements.map(({Weight, Date}) => ({
-                    x: Date,
-                    y: Weight,
-                  })),
-                },
-              ]}
-            />
-          </div>
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <TableTemplate headlineText={'Progress timeline'}>
+      <Chart
+        measurements={[
+          {
+            id: 'fatness data',
+            data: data.measurements.map(({Weight, Date}) => ({
+              x: Date,
+              y: Weight,
+            })),
+          },
+        ]}
+      />
+    </TableTemplate>
   );
 };
