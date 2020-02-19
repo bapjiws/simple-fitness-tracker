@@ -1,4 +1,7 @@
 import React from 'react';
+import ApolloClient from 'apollo-boost';
+import {ApolloProvider} from '@apollo/react-hooks';
+
 //import logo from './logo.svg';
 import './App.css';
 import {MeasurementChart} from './MeasurementChart';
@@ -17,13 +20,17 @@ import {MeasurementChart} from './MeasurementChart';
 //  </a>
 //</header>;
 
-export default () => {
-  return (
+const client = new ApolloClient({
+  uri: 'http://13.48.85.187:1337/graphql',
+});
+
+export default () => (
+  <ApolloProvider client={client}>
     <div className="App">
       <div className="Progress-Timeline">
         <MeasurementChart />
       </div>
       <div className="Measurements">M</div>
     </div>
-  );
-};
+  </ApolloProvider>
+);

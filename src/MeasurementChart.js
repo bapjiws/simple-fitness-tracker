@@ -10,10 +10,22 @@ import Paper from '@material-ui/core/Paper';
 
 import {ResponsiveLine} from '@nivo/line';
 
+import {useQuery} from '@apollo/react-hooks';
+import {gql} from 'apollo-boost';
+
+const MEASUREMENTS = gql`
+  query Measurements {
+    measurements {
+      id
+      Weight
+      Date
+    }
+  }
+`;
+
 const measurements = [
   {
-    id: 'your progress',
-    color: 'hsl(289, 70%, 50%)',
+    id: 'fatness data',
     data: [
       {
         y: 85,
@@ -165,6 +177,13 @@ const useStyles = makeStyles({
 export const MeasurementChart = () => {
   const classes = useStyles();
 
+  const {loading, error, data} = useQuery(MEASUREMENTS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+  console.log(data);
+
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table}>
@@ -177,7 +196,17 @@ export const MeasurementChart = () => {
         </TableHead>
         <TableBody>
           <div className={classes.tableContainer}>
-            <Chart measurements={measurements} />
+            <Chart
+              measurements={[
+                {
+                  id: 'fatness data',
+                  data: data.measurements.map(({Weight, Date}) => ({
+                    x: Date,
+                    y: Weight,
+                  })),
+                },
+              ]}
+            />
           </div>
         </TableBody>
       </Table>
