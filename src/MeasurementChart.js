@@ -23,41 +23,8 @@ const MEASUREMENTS = gql`
   }
 `;
 
-const measurements = [
-  {
-    id: 'fatness data',
-    data: [
-      {
-        y: 85,
-        x: '2020-02-18',
-      },
-      {
-        y: 88,
-        x: '2020-02-19',
-      },
-      {
-        y: 90,
-        x: '2020-02-20',
-      },
-      {
-        y: 111,
-        x: '2020-02-21',
-      },
-    ],
-  },
-];
-
 const Chart = ({measurements}) => (
   <ResponsiveLine
-    //markers={[
-    //  {
-    //    axis: 'y',
-    //    value: 0,
-    //    lineStyle: {stroke: '#b0413e', strokeWidth: 1},
-    //    legend: 'y marker at 0',
-    //    legendPosition: 'bottom-left',
-    //  },
-    //]}
     data={measurements}
     margin={{top: 30, right: 50, bottom: 50, left: 50}}
     xScale={{
@@ -78,17 +45,7 @@ const Chart = ({measurements}) => (
       tickSize: 0,
       tickPadding: 10,
     }}
-    //axisLeft={{
-    //        orient: 'left',
-    //        tickSize: 5,
-    //        tickPadding: 5,
-    //        tickRotation: 0,
-    //        legend: 'count',
-    //        legendOffset: -40,
-    //        legendPosition: 'middle'
-    //    }}
     axisBottom={{
-      //orient: 'bottom',
       format: '%b %d',
       tickValues: 'every 1 day',
       legend: 'date',
@@ -96,66 +53,16 @@ const Chart = ({measurements}) => (
       legendPosition: 'middle',
       tickSize: 0,
     }}
-    //enableGridX={false}
-    //enableGridY={false}
-    // axisBottom={{
-    //         orient: 'bottom',
-    //         tickSize: 7,
-    //         tickPadding: 5,
-    //         tickRotation: 0,
-    //         legend: 'transportation',
-    //         legendOffset: 36,
-    //         legendPosition: 'middle'
-    //     }}
     curve={'monotoneX'}
     enablePointLabel={false}
-    //        pointSymbol={CustomSymbol}
     pointSize={16}
     pointBorderWidth={1}
     pointBorderColor={{
       from: 'color',
       modifiers: [['darker', 0.3]],
     }}
-    //useMesh={true}
-    //enableSlices={false}
-    //legends={[
-    //  {
-    //    anchor: 'bottom-right',
-    //    direction: 'column',
-    //    justify: false,
-    //    translateX: 100,
-    //    translateY: 0,
-    //    itemsSpacing: 0,
-    //    itemDirection: 'left-to-right',
-    //    itemWidth: 80,
-    //    itemHeight: 20,
-    //    itemOpacity: 0.75,
-    //    symbolSize: 12,
-    //    symbolShape: 'circle',
-    //    symbolBorderColor: 'rgba(0, 0, 0, .5)',
-    //    effects: [
-    //      {
-    //        on: 'hover',
-    //        style: {
-    //          itemBackground: 'rgba(0, 0, 0, .03)',
-    //          itemOpacity: 1,
-    //        },
-    //      },
-    //    ],
-    //  },
-    //]}
   />
 );
-
-// const StyledTableCell = withStyles(theme => ({
-//   head: {
-//     backgroundColor: theme.palette.common.black,
-//     color: theme.palette.common.white,
-//   },
-//   body: {
-//     fontSize: 14,
-//   },
-// }))(TableCell);
 
 const useStyles = makeStyles({
   table: {
