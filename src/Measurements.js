@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState} from 'react';
 import {format} from 'date-fns';
 import {TableCell, TableRow, Button} from '@material-ui/core';
 
