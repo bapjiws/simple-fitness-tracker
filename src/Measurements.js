@@ -14,22 +14,27 @@ export const Measurements = ({data}) => {
 
   const [weight, setWeight] = useState('');
   console.log('weight:', weight);
+  const invalidWeight = isNaN(weight) || weight < 0 || weight > 200;
 
   const [date, setDate] = useState(new Date());
+  const [invalidDate, setInvalidDate] = useState(false);
+
+  const [showMessage, setShowMessage] = useState(false);
+  const closeMessage = () => setShowMessage(false);
   const handleDateChange = date => {
     setDate(date);
     if (data.find(({Date}) => Date === format(date, 'yyyy-MM-dd'))) {
-      setMessageIsShown(true);
+      setShowMessage(true);
+      setInvalidDate(true);
+    } else {
+      setInvalidDate(false);
     }
   };
-
-  const [messageIsShown, setMessageIsShown] = useState(false);
-  const closeMessage = () => setMessageIsShown(false);
 
   return (
     <div className="Measurements-container">
       <Message
-        open={messageIsShown}
+        open={showMessage}
         severity="error"
         message="Already have this date."
         handleOnClose={closeMessage}
@@ -41,6 +46,8 @@ export const Measurements = ({data}) => {
         handleDateChange={handleDateChange}
         handleOnChange={setWeight}
         weight={weight}
+        invalidWeight={invalidWeight}
+        savingDisabled={!weight || invalidWeight || invalidDate}
       />
       <TableTemplate
         headlineText={'Measurements'}
