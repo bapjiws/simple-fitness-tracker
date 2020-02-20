@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
+import {format} from 'date-fns';
 import {TableCell, TableRow, Button} from '@material-ui/core';
 
 import './App.css';
 import {TableTemplate} from './TableTemplate';
 import {MeasurementDialog} from './MeasurementDialog';
+import {Message} from './Message';
 
 export const Measurements = ({data}) => {
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
@@ -14,11 +16,24 @@ export const Measurements = ({data}) => {
   console.log('weight:', weight);
 
   const [date, setDate] = useState(new Date());
-  const handleDateChange = date => setDate(date);
-  console.log('date:', date);
+  const handleDateChange = date => {
+    setDate(date);
+    if (data.find(({Date}) => Date === format(date, 'yyyy-MM-dd'))) {
+      setMessageIsShown(true);
+    }
+  };
+
+  const [messageIsShown, setMessageIsShown] = useState(false);
+  const closeMessage = () => setMessageIsShown(false);
 
   return (
     <div className="Measurements-container">
+      <Message
+        open={messageIsShown}
+        severity="error"
+        message="Already have this date."
+        handleOnClose={closeMessage}
+      />
       <MeasurementDialog
         open={dialogIsOpen}
         handleOnClose={closeDialog}
