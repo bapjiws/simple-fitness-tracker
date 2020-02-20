@@ -7,7 +7,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TableFooter,
 } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 
@@ -15,6 +14,7 @@ const useStyles = makeStyles({
   table: {
     height: '500px',
     width: '100%',
+    position: 'relative',
   },
 
   headline: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const TableTemplate = ({headlineText, body, footer = null}) => {
+export const TableTemplate = ({headlineText, children}) => {
   const classes = useStyles();
   return (
     <TableContainer component={Paper}>
@@ -40,8 +40,7 @@ export const TableTemplate = ({headlineText, body, footer = null}) => {
             <TableCell className={classes.headline}>{headlineText}</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody className={classes.tableContainer}>{body}</TableBody>
-        <TableFooter>{footer}</TableFooter>
+        <TableBody className={classes.tableContainer}>{children}</TableBody>
       </Table>
     </TableContainer>
   );

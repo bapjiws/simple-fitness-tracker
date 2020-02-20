@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {format} from 'date-fns';
-import {TableCell, TableRow, Button} from '@material-ui/core';
+import {TableCell, TableRow, IconButton} from '@material-ui/core';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import './App.css';
 import {TableTemplate} from './TableTemplate';
@@ -13,7 +14,6 @@ export const Measurements = ({data}) => {
   const closeDialog = () => setDialogIsOpen(false);
 
   const [weight, setWeight] = useState('');
-  console.log('weight:', weight);
   const invalidWeight = isNaN(weight) || weight < 0 || weight > 200;
 
   const [date, setDate] = useState(new Date());
@@ -49,19 +49,19 @@ export const Measurements = ({data}) => {
         invalidWeight={invalidWeight}
         savingDisabled={!weight || invalidWeight || invalidDate}
       />
-      <TableTemplate
-        headlineText={'Measurements'}
-        body={data.map(({id, Weight, Date}) => (
+      <TableTemplate headlineText={'Measurements'}>
+        {data.map(({id, Weight, Date}) => (
           <TableRow key={id} hover onClick={openDialog}>
             <TableCell>{`${Date} (${Weight} kg)`}</TableCell>
           </TableRow>
         ))}
-        footer={
-          <Button variant="outlined" color="primary" onClick={openDialog}>
-            New measurement
-          </Button>
-        }
-      />
+        <IconButton
+          className="Add-Measurement-button"
+          color="primary"
+          onClick={openDialog}>
+          <AddCircleIcon fontSize="large" />
+        </IconButton>
+      </TableTemplate>
     </div>
   );
 };

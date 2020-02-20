@@ -63,3 +63,9 @@
 .Weight {
   width: 130px;
 }
+
+.Add-Measurement-button {
+  position: absolute !important;
+  bottom: 3px;
+  right: 3px;
+}
