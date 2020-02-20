@@ -1,7 +1,7 @@
 import React from 'react';
 import {
+  Grid,
   Button,
-  TextField,
   Dialog,
   DialogActions,
   DialogContent,
@@ -9,9 +9,15 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 
+import './App.css';
+import {Date} from './Date';
+import {Weight} from './Weight';
+
 export const MeasurementDialog = ({
   open,
   handleOnClose,
+  date,
+  handleDateChange,
   handleOnChange,
   weight,
 }) => {
@@ -24,20 +30,20 @@ export const MeasurementDialog = ({
         <DialogContentText>
           Please provide a (unique) date and weight.
         </DialogContentText>
-        <TextField
-          error={error}
-          value={weight}
-          onChange={event => handleOnChange(event.target.value)}
-          label="Weight"
-          helperText={error && 'Not an appropriate weight'}
-          variant="outlined"
-        />
+        <Grid container justify="space-between">
+          <Date date={date} handleDateChange={handleDateChange} />
+
+          <Weight weight={weight} handleOnChange={handleOnChange} error={error} />
+        </Grid>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleOnClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleOnClose} color="primary" disabled={!weight || error}>
+        <Button
+          onClick={handleOnClose}
+          color="primary"
+          disabled={!weight || error}>
           Save
         </Button>
       </DialogActions>

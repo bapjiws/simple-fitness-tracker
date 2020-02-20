@@ -13,11 +13,17 @@ export const Measurements = ({data}) => {
   const [weight, setWeight] = useState('');
   console.log('weight:', weight);
 
+  const [date, setDate] = useState(new Date());
+  const handleDateChange = date => setDate(date);
+  console.log('date:', date);
+
   return (
     <div className="Measurements-container">
       <MeasurementDialog
         open={dialogIsOpen}
         handleOnClose={closeDialog}
+        date={date}
+        handleDateChange={handleDateChange}
         handleOnChange={setWeight}
         weight={weight}
       />
