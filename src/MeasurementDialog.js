@@ -16,12 +16,13 @@ import {Weight} from './Weight';
 export const MeasurementDialog = ({
   open,
   handleOnClose,
+  handleOnSave,
   date,
   handleDateChange,
-  handleOnChange,
+  handleWeightChange,
   weight,
   invalidWeight,
-  savingDisabled
+  savingDisabled,
 }) => (
   <Dialog open={open} onClose={handleOnClose}>
     <DialogTitle>Create/edit measurements</DialogTitle>
@@ -33,7 +34,7 @@ export const MeasurementDialog = ({
         <Date date={date} handleDateChange={handleDateChange} />
         <Weight
           weight={weight}
-          handleOnChange={handleOnChange}
+          handleOnChange={handleWeightChange}
           error={invalidWeight}
         />
       </Grid>
@@ -42,10 +43,7 @@ export const MeasurementDialog = ({
       <Button onClick={handleOnClose} color="primary">
         Cancel
       </Button>
-      <Button
-        onClick={handleOnClose}
-        color="primary"
-        disabled={savingDisabled}>
+      <Button onClick={handleOnSave} color="primary" disabled={savingDisabled}>
         Save
       </Button>
     </DialogActions>

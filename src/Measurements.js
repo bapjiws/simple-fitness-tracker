@@ -1,34 +1,49 @@
 import React, {useState} from 'react';
+import {useMutation} from '@apollo/react-hooks';
 import {format} from 'date-fns';
 import {TableCell, TableRow, IconButton} from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import './App.css';
+import {MEASUREMENTS, ADD_MEASUREMENT} from './graphql';
 import {TableTemplate} from './TableTemplate';
 import {MeasurementDialog} from './MeasurementDialog';
 import {Message} from './Message';
 
 export const Measurements = ({data}) => {
+  const [addMeasurement] = useMutation(ADD_MEASUREMENT, {
+    refetchQueries: [{query: MEASUREMENTS}],
+  });
+
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
   const openDialog = () => setDialogIsOpen(true);
-  const closeDialog = () => setDialogIsOpen(false);
 
-  const [weight, setWeight] = useState('');
+  const [weight, setWeight] = useState(null);
   const invalidWeight = isNaN(weight) || weight < 0 || weight > 200;
 
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const [invalidDate, setInvalidDate] = useState(false);
-
-  const [showMessage, setShowMessage] = useState(false);
-  const closeMessage = () => setShowMessage(false);
-  const handleDateChange = date => {
-    setDate(date);
-    if (data.find(({Date}) => Date === format(date, 'yyyy-MM-dd'))) {
+  const handleDateChange = val => {
+    setDate(format(val, 'yyyy-MM-dd'));
+    if (data.find(({Date}) => Date === date)) {
       setShowMessage(true);
       setInvalidDate(true);
     } else {
       setInvalidDate(false);
     }
+  };
+
+  const [showMessage, setShowMessage] = useState(false);
+  const closeMessage = () => setShowMessage(false);
+
+  const close = () => {
+    setDialogIsOpen(false);
+  };
+  const save = () => {
+    close();
+    addMeasurement({
+      variables: {weight: Number(weight), date},
+    });
   };
 
   return (
@@ -41,10 +56,11 @@ export const Measurements = ({data}) => {
       />
       <MeasurementDialog
         open={dialogIsOpen}
-        handleOnClose={closeDialog}
+        handleOnClose={close}
+        handleOnSave={save}
         date={date}
         handleDateChange={handleDateChange}
-        handleOnChange={setWeight}
+        handleWeightChange={setWeight}
         weight={weight}
         invalidWeight={invalidWeight}
         savingDisabled={!weight || invalidWeight || invalidDate}

@@ -14,7 +14,7 @@ export const Date = ({date, handleDateChange}) => (
       className="Date"
       margin="normal"
       label="Date"
-      format="MM/dd/yyyy"
+      format="dd/MM/yyyy"
       value={date}
       onChange={handleDateChange}
     />
