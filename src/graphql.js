@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const MEASUREMENTS = gql`
   query Measurements {
-    measurements(sort: "Date:desc") {
+    measurements(sort: "Date:asc") {
       id
       Weight
       Date

@@ -33,6 +33,7 @@ const Chart = ({measurements}) => (
       legendOffset: 36,
       legendPosition: 'middle',
       tickSize: 0,
+      tickRotation: -35
     }}
     curve={'monotoneX'}
     enablePointLabel={false}

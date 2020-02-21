@@ -23,9 +23,9 @@ export const Measurements = ({data}) => {
 
   const [date, setDate] = useState(null);
   const [invalidDate, setInvalidDate] = useState(false);
-  const handleDateChange = val => {
-    setDate(format(val, 'yyyy-MM-dd'));
-    if (data.find(({Date}) => Date === date)) {
+  const handleDateChange = date => {
+    setDate(date);
+    if (data.find(({Date}) => Date === format(date, 'yyyy-MM-dd'))) {
       setShowMessage(true);
       setInvalidDate(true);
     } else {
@@ -42,7 +42,7 @@ export const Measurements = ({data}) => {
   const save = () => {
     close();
     addMeasurement({
-      variables: {weight: Number(weight), date},
+      variables: {weight: Number(weight), date: format(date, 'yyyy-MM-dd')},
     });
   };
 
