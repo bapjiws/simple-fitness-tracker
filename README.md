@@ -69,3 +69,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### Known bugs
 - When clicking on measurements in the table to update them, it is possible to change the date to that of another already existing measurement and thus run into an error when trying to save (updating the measurement with its orignal date or a new date that doesn't clash works as expected, however).
+- When the measurements' table content overflows, the header srolls with the reats of the table instead of staying put (oops).
