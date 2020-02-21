@@ -16,7 +16,7 @@ const Chart = ({measurements}) => (
     xFormat="time:%Y-%m-%d"
     yScale={{
       type: 'linear',
-      max: 150,
+      max: 250,
       stacked: false,
     }}
     axisLeft={{

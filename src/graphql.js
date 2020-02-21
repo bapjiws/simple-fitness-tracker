@@ -19,3 +19,15 @@ export const ADD_MEASUREMENT = gql`
     }
   }
 `;
+
+export const UPDATE_MEASUREMENT = gql`
+  mutation UpdateMeasurement($id: ID!, $weight: Int!, $date: Date!) {
+    updateMeasurement(
+      input: {where: {id: $id}, data: {Weight: $weight, Date: $date}}
+    ) {
+      measurement {
+        id
+      }
+    }
+  }
+`;

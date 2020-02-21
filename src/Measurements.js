@@ -1,51 +1,87 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useMutation} from '@apollo/react-hooks';
 import {format} from 'date-fns';
 import {TableCell, TableRow, IconButton} from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import './App.css';
-import {MEASUREMENTS, ADD_MEASUREMENT} from './graphql';
+import {MEASUREMENTS, ADD_MEASUREMENT, UPDATE_MEASUREMENT} from './graphql';
 import {TableTemplate} from './TableTemplate';
 import {MeasurementDialog} from './MeasurementDialog';
 import {Message} from './Message';
+
+const MUTATION_TYPE_CREATE = 'MUTATION_TYPE_CREATE';
+const MUTATION_TYPE_UPDATE = 'MUTATION_TYPE_UPDATE';
 
 export const Measurements = ({data}) => {
   const [addMeasurement] = useMutation(ADD_MEASUREMENT, {
     refetchQueries: [{query: MEASUREMENTS}],
   });
+  const [updateMeasurement] = useMutation(UPDATE_MEASUREMENT, {
+    refetchQueries: [{query: MEASUREMENTS}],
+  });
+
+  const [mutationType, setMutationType] = useState(null);
 
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
-  const openDialog = () => setDialogIsOpen(true);
+  const closeDialog = () => setDialogIsOpen(false);
 
-  const [weight, setWeight] = useState(null);
+  const [id, setId] = useState(null);
+
+  const [weight, setWeight] = useState('');
   const invalidWeight = isNaN(weight) || weight < 0 || weight > 200;
 
   const [date, setDate] = useState(null);
   const [invalidDate, setInvalidDate] = useState(false);
   const handleDateChange = date => {
-    setDate(date);
-    if (data.find(({Date}) => Date === format(date, 'yyyy-MM-dd'))) {
-      setShowMessage(true);
-      setInvalidDate(true);
-    } else {
-      setInvalidDate(false);
-    }
+    setDate(format(date, 'yyyy-MM-dd'));
   };
 
   const [showMessage, setShowMessage] = useState(false);
   const closeMessage = () => setShowMessage(false);
 
-  const close = () => {
-    setDialogIsOpen(false);
-  };
-  const save = () => {
-    close();
-    addMeasurement({
-      variables: {weight: Number(weight), date: format(date, 'yyyy-MM-dd')},
-    });
+  const resetData = () => {
+    setId(null);
     setWeight(null);
     setDate(null);
+  };
+
+  useEffect(() => {
+    if (mutationType === MUTATION_TYPE_UPDATE) {
+      return;
+    }
+    if (data.find(({Date}) => Date === date)) {
+      setShowMessage(true);
+      setInvalidDate(true);
+    } else {
+      setInvalidDate(false);
+    }
+  }, [mutationType, date, data]);
+
+  const save = () => {
+    closeDialog();
+    if (mutationType === MUTATION_TYPE_CREATE) {
+      addMeasurement({
+        variables: {weight: Number(weight), date},
+      });
+    } else if (mutationType === MUTATION_TYPE_UPDATE) {
+      updateMeasurement({variables: {id, weight: Number(weight), date}});
+    }
+    resetData();
+  };
+
+  const prepareForCreate = () => {
+    resetData();
+    setMutationType(MUTATION_TYPE_CREATE);
+    setDialogIsOpen(true);
+  };
+
+  const prepareForUpdate = (id, Date, Weight) => {
+    setMutationType(MUTATION_TYPE_UPDATE);
+    setId(id);
+    setDate(Date);
+    setWeight(Weight);
+    setDialogIsOpen(true);
   };
 
   return (
@@ -58,7 +94,7 @@ export const Measurements = ({data}) => {
       />
       <MeasurementDialog
         open={dialogIsOpen}
-        handleOnClose={close}
+        handleOnClose={closeDialog}
         handleOnSave={save}
         date={date}
         handleDateChange={handleDateChange}
@@ -69,14 +105,18 @@ export const Measurements = ({data}) => {
       />
       <TableTemplate headlineText={'Measurements'}>
         {data.map(({id, Weight, Date}) => (
-          <TableRow className="Table-Row" key={id} hover onClick={openDialog}>
+          <TableRow
+            className="Table-Row"
+            key={id}
+            hover
+            onClick={() => prepareForUpdate(id, Date, Weight)}>
             <TableCell className="Table-Cell">{`${Date} (${Weight} kg)`}</TableCell>
           </TableRow>
         ))}
         <IconButton
           className="Add-Measurement-button"
           color="primary"
-          onClick={openDialog}>
+          onClick={prepareForCreate}>
           <AddCircleIcon fontSize="large" />
         </IconButton>
       </TableTemplate>
