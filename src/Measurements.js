@@ -69,8 +69,8 @@ export const Measurements = ({data}) => {
       />
       <TableTemplate headlineText={'Measurements'}>
         {data.map(({id, Weight, Date}) => (
-          <TableRow key={id} hover onClick={openDialog}>
-            <TableCell>{`${Date} (${Weight} kg)`}</TableCell>
+          <TableRow className="Table-Row" key={id} hover onClick={openDialog}>
+            <TableCell className="Table-Cell">{`${Date} (${Weight} kg)`}</TableCell>
           </TableRow>
         ))}
         <IconButton
