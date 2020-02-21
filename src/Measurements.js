@@ -44,6 +44,8 @@ export const Measurements = ({data}) => {
     addMeasurement({
       variables: {weight: Number(weight), date: format(date, 'yyyy-MM-dd')},
     });
+    setWeight(null);
+    setDate(null);
   };
 
   return (
