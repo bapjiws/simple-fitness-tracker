@@ -74,6 +74,10 @@
   justify-content: space-around;
 }
 
+.Table-Cell-data {
+  cursor: pointer;
+}
+
 .Add-Measurement-button {
   position: sticky !important;
   bottom: 3px;

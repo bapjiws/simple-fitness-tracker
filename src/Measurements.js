@@ -119,6 +119,7 @@ export const Measurements = ({data}) => {
           <TableRow className="Table-Row" key={id} hover>
             <TableCell className="Table-Cell">
               <div
+                className="Table-Cell-data"
                 onClick={() =>
                   prepareForUpdate(id, Date, Weight)
                 }>{`${Date} (${Weight} kg)`}</div>
