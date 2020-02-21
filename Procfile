@@ -1,3 +1,3 @@
-worker: npm run build
-worker: npm install -g serve
+command: npm run build
+command: npm install -g serve
 web: serve -s build
