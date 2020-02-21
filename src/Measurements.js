@@ -3,9 +3,15 @@ import {useMutation} from '@apollo/react-hooks';
 import {format} from 'date-fns';
 import {TableCell, TableRow, IconButton} from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import './App.css';
-import {MEASUREMENTS, ADD_MEASUREMENT, UPDATE_MEASUREMENT} from './graphql';
+import {
+  MEASUREMENTS,
+  ADD_MEASUREMENT,
+  UPDATE_MEASUREMENT,
+  DELETE_MEASUREMENT,
+} from './graphql';
 import {TableTemplate} from './TableTemplate';
 import {MeasurementDialog} from './MeasurementDialog';
 import {Message} from './Message';
@@ -18,6 +24,9 @@ export const Measurements = ({data}) => {
     refetchQueries: [{query: MEASUREMENTS}],
   });
   const [updateMeasurement] = useMutation(UPDATE_MEASUREMENT, {
+    refetchQueries: [{query: MEASUREMENTS}],
+  });
+  const [deleteMeasurement] = useMutation(DELETE_MEASUREMENT, {
     refetchQueries: [{query: MEASUREMENTS}],
   });
 
@@ -58,7 +67,7 @@ export const Measurements = ({data}) => {
     }
   }, [mutationType, date, data]);
 
-  const save = () => {
+  const handleSave = () => {
     closeDialog();
     if (mutationType === MUTATION_TYPE_CREATE) {
       addMeasurement({
@@ -84,6 +93,8 @@ export const Measurements = ({data}) => {
     setDialogIsOpen(true);
   };
 
+  const handleDelete = id => deleteMeasurement({variables: {id}});
+
   return (
     <div className="Measurements-container">
       <Message
@@ -95,7 +106,7 @@ export const Measurements = ({data}) => {
       <MeasurementDialog
         open={dialogIsOpen}
         handleOnClose={closeDialog}
-        handleOnSave={save}
+        handleOnSave={handleSave}
         date={date}
         handleDateChange={handleDateChange}
         handleWeightChange={setWeight}
@@ -105,12 +116,16 @@ export const Measurements = ({data}) => {
       />
       <TableTemplate headlineText={'Measurements'}>
         {data.map(({id, Weight, Date}) => (
-          <TableRow
-            className="Table-Row"
-            key={id}
-            hover
-            onClick={() => prepareForUpdate(id, Date, Weight)}>
-            <TableCell className="Table-Cell">{`${Date} (${Weight} kg)`}</TableCell>
+          <TableRow className="Table-Row" key={id} hover>
+            <TableCell className="Table-Cell">
+              <div
+                onClick={() =>
+                  prepareForUpdate(id, Date, Weight)
+                }>{`${Date} (${Weight} kg)`}</div>
+              <IconButton color="secondary" onClick={() => handleDelete(id)}>
+                <DeleteIcon />
+              </IconButton>
+            </TableCell>
           </TableRow>
         ))}
         <IconButton

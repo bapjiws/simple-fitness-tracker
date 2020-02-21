@@ -31,3 +31,13 @@ export const UPDATE_MEASUREMENT = gql`
     }
   }
 `;
+
+export const DELETE_MEASUREMENT = gql`
+  mutation DeleteMeasurement($id: ID!) {
+    deleteMeasurement(input: {where: {id: $id}}) {
+      measurement {
+        id
+      }
+    }
+  }
+`;
