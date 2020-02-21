@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). As its data endpoint, it's running [Strapi CMS](https://strapi.io/) with a Graphql interface (we're running a [contanerised](https://github.com/strapi/strapi-docker) version of Strapi on an EC2 instance on AWS). UI-wise, the app is relying on the components from [Material UI](material-ui.com) and uses [Nivo](https://nivo.rocks/) to render the chart.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). As its data endpoint, it's running [Strapi CMS](https://strapi.io/) with a Graphql interface (we're running a [contanerised](https://github.com/strapi/strapi-docker) version of Strapi on an EC2 instance on AWS). UI-wise, the app is relying on the components from [Material UI](https://material-ui.com/) and uses [Nivo](https://nivo.rocks/) to render the chart.
 
 The app is currently deployed to [Heroku](https://your-weight-slippery-slope.herokuapp.com/), but since the EC2 instance is running on HTTP and Heroku is running on HTTPS, your browser will most likely block the mixed content :) 
 
