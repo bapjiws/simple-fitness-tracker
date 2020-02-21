@@ -31,7 +31,7 @@ const App = () => {
   const {loading, error, data} = useQuery(MEASUREMENTS);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (error) return console.log('ERROR:', error) || <p>Error :(</p>;
 
   return (
     <div className="App">
