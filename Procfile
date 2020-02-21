@@ -1,2 +1,2 @@
-worker: npm run build && npm install -g serve
-web: serve -s build
+worker: npm run build
+web: npx serve -s build
